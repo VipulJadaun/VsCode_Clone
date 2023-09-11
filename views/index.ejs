@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>VsCode</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+  <div id="main">
+    <div id="popup">
+      <h3>Change name</h3>
+      <hr>
+      <div id="popupform">
+        <form action="/rename/:filename" method="post">
+          <input name="newname" id="inp" type="text">
+          <input id="submitform" type="submit">
+        </form>
+      </div>
+
+
+    </div>
+
+    <div id="nav">
+      <div id="nav1">
+        <img src="../images/vs_icon.png" alt="">
+        <h3>file</h3>
+        <h3>edit</h3>
+        <h3>selection</h3>
+        <h3>view</h3>
+        <h3>go</h3>
+        <h3>run</h3>
+        <h3>terminal</h3>
+        <h3>help</h3>
+      </div>
+      <div id="nav2">
+        <h3>VsCode - Visual Studio Code</h3>
+      </div>
+      <div id="nav3">
+        <i class="ri-subtract-line"></i>
+        <i class="ri-fullscreen-exit-fill"></i>
+        <i class="ri-close-line"></i>
+      </div>
+    </div>
+
+    <div id="page1">
+      <div id="lnav">
+        <div id="ltop">
+          <img id="slide" src="../images/folder.png" alt="">
+          <i class="ri-search-line"></i>
+          <img src="../images/source-control-svgrepo-com.png" alt="">
+          <img src="../images/debug-alt-svgrepo-com.png" alt="">
+          <img src="../images/extension.png" alt="">
+          <img src="../images/remote-explorer-svgrepo-com.png" alt="">
+          <img src="../images/icons8-python-100.png" alt="">
+        </div>
+        <div id="lbtm">
+          <img src="../images/setting.png" alt="">
+          <img src="../images/Account.png" alt="">
+
+        </div>
+      </div>
+      <div id="left">
+        <div class="top">
+          <p>EXPLORER</p>
+          <i class="ri-more-fill"></i>
+        </div>
+        <div class="center">
+          <div id="l">
+            <i class="ri-arrow-drop-down-line"></i>
+            <p>VSCODE</p>
+          </div>
+          <div id="r">
+            <i id="createfile" class="ri-file-add-line"></i>
+            <i id="createfolder" class="ri-folder-add-line"></i>
+            <i class="ri-refresh-line"></i>
+          </div>
+
+        </div>
+        <div id="file">
+          <form id="filename" action="/newfile">
+            <input type="text" placeholder="filename" name="file">
+          </form>
+          <form id="foldername" action="/folder">
+            <input type="text" placeholder="foldername" name="newfolder">
+          </form>
+        </div>
+
+        <% files.forEach(function(val){ %>
+          <div class="elem">
+            <div id="elemleft">
+              <% if(val.isDirectory()){ %>
+                <i class="ri-folder-add-line"></i>
+                <%= val.name %>
+                  <% } else{ %>
+                    <a href="/file/<%= val.name %>">
+                      <i class="ri-file-add-line"></i>
+                      <%= val.name %>
+                    </a>
+                    <% } %>
+            </div>
+
+            <div id="elemright">
+              <i id="edit" class="ri-pencil-fill"></i>
+              <% if(val.isDirectory()){ %>
+                <a href="/delete/folder/<%= val.name %>"><i class="ri-delete-bin-7-line"></i></a>
+                <% }else{ %>
+                  <a href="/delete/file/<%= val.name %>"><i class="ri-delete-bin-7-line"></i></a>
+                  <% } %>
+            </div>
+          </div>
+          <% })%>
+
+      </div>
+      <div id="right">
+
+        <div id="txt">
+          <img src="./images/vs_icon.png" alt="">
+          <small>No file here...</small>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    document.querySelector("#left")
+      .addEventListener("click", function (dets) {
+        if (dets.target.id === "edit") {
+          var fname = dets.srcElement.parentElement.parentElement.textContent.trim()
+          document.querySelector("#inp").value = fname;
+          document.querySelector("#popup").style.display = "block";
+          document.querySelector("#popupform form").setAttribute(`action`, `./rename/${fname}`)
+
+        }
+      })
+
+
+    function formoff() {
+      document.querySelectorAll("#file form")
+        .forEach(function (frm) {
+          frm.style.display = "none"
+        })
+    }
+
+    document.querySelector("#createfile")
+      .addEventListener("click", function () {
+        formoff();
+        document.querySelector("#filename").style.display = "block";
+      })
+    document.querySelector("#createfolder")
+      .addEventListener("click", function () {
+        formoff();
+        document.querySelector("#foldername").style.display = "block";
+      })
+
+
+
+
+  </script>
+</body>
+
+
+
+</html>
